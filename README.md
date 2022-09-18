@@ -45,9 +45,9 @@ fetch("http://example.com/api/users");
 Используется только один метод для обработки ответа. Др. приведет к ошибке.
 
 <hr>
-<h3>Для работы с `Promise` в JavaScript есть два способа:<h3>
+<h3>Для работы с <span>Promise</span> в JavaScript есть два способа:<h3>
 
-`then/catch` и `async/await`
+then/catch и async/await
 
 `then/catch`
 
@@ -139,6 +139,32 @@ alert(result.message);
 Заметим, что так как тело запроса body – строка, то заголовок `Content-Type` по умолчанию будет text/plain;charset=UTF-8.
 
 Но, так как мы посылаем JSON, то используем параметр headers для отправки вместо этого `application/json`, правильный Content-Type для JSON.
+
+<hr>
+<h3>Тонкости в DevTools</h3>
+
+<h4>Network</h4>
+
+В `DevTools` вкладка `Network` отражает раб. с сервером - загружаемые/переданые данные/файлы, время загрузок, ...
+<br>
+Е/и выбрать файл то покажут подвкладки:
+
+- `Headers` - заголовки по запросу (url, метод, код статуса, IP адрес, ресурс пользователя, содержимое, куки, тело и пр.)
+- `Prewiew` - Предварительный просмотр ответа с сервера
+- `Response` - ответ сервера тектом
+- `Timing` - параметры времяни по запросу
+  Коды статуса: 100 - информационные, 200 - успешные, 300 - перенаправление, 400 - ошибка клиента, 500 - ошибка сервера
+
+<h4>Неиспользуемый код</h4>
+
+Неиспользуемые код CSS и JS в вёрстке - https://fuse8.ru/articles/interesting-devtools-features-for-qa
+Откр. DevTools(панель разраб.)
+<br>
+Вызов Command Menu(Ctrl+Shift+P) - ввод Show Coverage - Enter
+<br>
+Откр. вклад. Coverage - кнп. Start instrumenting coverage and reload page|Click the reload button - вывод использ. код
+<br>
+Выбор файла/блока - красным отмечен не используемый код.
 
 <hr>
 Более подробную инфу можно прочитать по ссылкам:
