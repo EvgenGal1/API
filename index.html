@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header id="header">
+      <ul class="home">
+        <li><a href="#" target="_self">ГЛАВНАЯ</a></li>
+        <li><a href="/1/index.html" target="_self">1</a></li>
+        <li><a href="/1/index.html" target="_self">2</a></li>
+        <li></li>
+      </ul>
+    </header>
+    <main id="main">
+      <h1 style="text-align: center">Изучение API</h1>
+      <h2 style="text-align: center">Fetch API</h2>
+      <p>
+        <span>Fetch API</span> - интерфейс JS для создания серверных запросов
+        (запросы и ответы HTTP) с промисам.
+      </p>
+      <p>
+        Метод <span>fetch()</span> принимает/передаёт данные между страницей
+        браузера и веб-сервером и возвращает <span>Promise</span>
+      </p>
+      <br />
+      <p>Ситнаксис</p>
+      <pre><code>fetch(url, [options]);</code></pre>
+
+      <b>url</b> – url, на который сделать запрос (строка/строк.выраж.)
+      <br />
+      <b>options</b> – доп. объ., с настройками запроса (без<b>options</b>метод GET(получить данные)) 
+      <br />
+      Пример простого запроса GET:
+      <pre>
+        <code>
+                    fetch("http://example.com/api/users");
+        </code>
+      </pre>
+      Результат вызова возвращает спец.объ.хран.сост.<b>Promise</b>(обещание). При получении ответа, выполняются
+      коллбэки с объ.встроен.класса<b>Response</b>(Ответ)
+
+      <hr />
+      <h3>Получение ответа</h3>
+
+     <b>Promise</b>выполняется с объектом встроенного класса<b>Response</b>в качестве
+      результата, как только сервер пришлёт заголовки ответа. Объект
+     <b>Response`(Ответ), через свои методы, предоставляет доступ по двум этапам:
+      Заголовки (проверки):<br />
+
+      -<b>response.status`- код статуса HTTP-запроса // 200|404|500|... -
+     <b>response.ok</b>- успешность // ok/true(200-299)|... -
+     <b>response.headers.get('Content-Type')</b>- заголовок, объ. похож на Map с
+      такими же методами Тело (форматы):<br />
+
+      -<b>response.text()</b>– читает ответ и возвращает как обычный текст, -
+     <b>response.json()</b>– декодирует ответ в формате JSON, -
+     <b>response.formData()</b>– возвращает ответ как объект FormData (кодировка
+      form/multipart), -<b>response.blob()</b>– возвращает объект как Blob
+      (бинарные данные с типом), -<b>response.arrayBuffer()</b>– возвращает ответ
+      как ArrayBuffer (низкоуровневое представление бинарных данных), -
+     <b>response.body</b>– это объект<b>ReadableStream`, с помощью которого можно
+      считывать тело запроса по частям. Используется только один метод для
+      обработки ответа. Др. приведет к ошибке.
+
+      <hr />
+      <h3>Для работы с <span>Promise</span> в JavaScript есть два способа:</h3>
+
+      then/catch и async/await<b>then/catch</b>-<b>then</b>- метод для навешивая
+      обработчиков на<b>Promise</b>-<b>catch</b>- метод для обработки ошибок в
+     <b>Promise</b>вместе с<b>then`<b>``js fetch("http://example.com/api/users")
+      .then((response) => { return response.json(); }) .then((data) => {
+      console.log(data); }) .catch((error) => { console.log(error); });<b>``
+     <b>async/await</b>Более современный и лаконичный способ работы с<b>Promise`
+     <b>``js async function getUsers() { let response = await
+      fetch("http://example.com/api/users"); if (response.ok) { let data = await
+      response.json(); console.log(data); return data; } else { alert("error",
+      response.status); } } getUsers();<b>`</b>В данном примере для обработки
+      ошибок идет проверка на состояние объекта<b>Response`.<br />
+      Для работы с ошибками в async/await существует более эстетичное решение с
+      использованием конструкции<b>try..catch`<b>``js async function getUsers() {
+      try { let response = await fetch("http://example.com/api/users"); let
+      users = await response.json(); return users; } catch (error) {
+      alert(error); } } getUsers();<b>``
+
+      <hr />
+      <h3>Options. Отправка данных на сервер</h3>
+
+      <p>
+        Для отправки POST/других запросов, необходимо в<b>options</b>указать
+        параметры/ Наиболее частые:
+      </p>
+      -<b>method</b>– HTTP метод запроса // GET|POST|PUT|DELETE -<b>headers</b>—
+      заголовки запроса. Зависит от тела запроса и обычно ставится
+      автоматически. -<b>body</b>– тело запроса //
+      FormData|BufferSource|URLSearchParams|string|Blob|ArrayBuffer|TypedArray|DataView
+      -<b>mode</b>- защита от отправки запросов на другой сервер //
+      cors|no-cors|same-origin -<b>credentials</b>- указ методу по учёт.данным в
+      запросе (куки,заголовок авторизации) // omit|same-origin|include -<b>cache`
+      - кеширование запроса //
+      default|no-store|reload|no-cache|force-cache|only-if-cached -<b>redirect</b>-
+      обработка перенаправлений // follow|error|manual Пример отправит объ.
+     <b>user</b>как JSON:<b>``js let user = { name: "John", surname: "Smith", }; let
+      response = await fetch("/article/fetch/post/user", { method: "POST",
+      headers: { "Content-Type": "application/json;charset=utf-8", }, body:
+      JSON.stringify(user), }); let result = await response.json();
+      alert(result.message);<b>`</b>Заметим, что так как тело запроса body –
+      строка, то заголовок<b>Content-Type</b>по умолчанию будет
+      text/plain;charset=UTF-8. Но, так как мы посылаем JSON, то используем
+      параметр headers для отправки вместо этого<b>application/json`, правильный
+      Content-Type для JSON.
+
+      <hr />
+      <h3>Тонкости в DevTools</h3>
+
+      <h4>Network</h4>
+
+      В<b>DevTools</b>вкладка<b>Network</b>отражает раб. с сервером -
+      загружаемые/переданые данные/файлы, время загрузок, ...
+      <br />
+      Е/и выбрать файл то покажут подвкладки: -<b>Headers</b>- заголовки по запросу
+      (url, метод, код статуса, IP адрес, ресурс пользователя, содержимое, куки,
+      тело и пр.) -<b>Prewiew</b>- Предварительный просмотр ответа с сервера -
+     <b>Response</b>- ответ сервера тектом -<b>Timing</b>- параметры времяни по
+      запросу Коды статуса: 100 - информационные, 200 - успешные, 300 -
+      перенаправление, 400 - ошибка клиента, 500 - ошибка сервера
+
+      <h4>Неиспользуемый код</h4>
+
+      Неиспользуемые код CSS и JS в вёрстке -
+      https://fuse8.ru/articles/interesting-devtools-features-for-qa Откр.
+      DevTools(панель разраб.)
+      <br />
+      Вызов Command Menu(Ctrl+Shift+P) - ввод Show Coverage - Enter
+      <br />
+      Откр. вклад. Coverage - кнп. Start instrumenting coverage and reload
+      page|Click the reload button - вывод использ. код
+      <br />
+      Выбор файла/блока - красным отмечен не используемый код.
+
+      <hr />
+      Более подробную инфу можно прочитать по ссылкам:
+      https://learn.javascript.ru/fetch
+      https://developer.mozilla.org/ru/docs/Web/API/Fetch_API/Using_Fetch
+    </main>
+  </body>
+</html>

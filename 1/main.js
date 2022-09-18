@@ -8,9 +8,11 @@ fetch(
   .then((data) => setHeroes(data));
 
 // fn. по отрисовке, приним. данные из запроса, вызов в .then
+let main = document.getElementById("main");
 function setHeroes({ squadName, homeTown, formed, members }) {
   // встав. после начала body
-  document.body.insertAdjacentHTML(
+  // document.body.main.insertAdjacentHTML(
+  main.insertAdjacentHTML(
     "afterbegin",
     `
     <h1>${squadName}</h1>
